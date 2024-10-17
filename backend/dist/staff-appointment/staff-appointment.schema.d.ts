@@ -7,27 +7,27 @@ export declare const StaffAppointmentSchema: mongoose.Schema<any, mongoose.Model
 } & {
     patientName: string;
     doctorName: string;
-    appointmentDate: NativeDate;
-    status: "Pending" | "Confirmed" | "Rejected";
     hospital: string;
+    status: "Pending" | "Confirmed" | "Rejected";
+    appointmentDate: NativeDate;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
     patientName: string;
     doctorName: string;
-    appointmentDate: NativeDate;
-    status: "Pending" | "Confirmed" | "Rejected";
     hospital: string;
+    status: "Pending" | "Confirmed" | "Rejected";
+    appointmentDate: NativeDate;
 }>> & mongoose.FlatRecord<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
     patientName: string;
     doctorName: string;
-    appointmentDate: NativeDate;
-    status: "Pending" | "Confirmed" | "Rejected";
     hospital: string;
+    status: "Pending" | "Confirmed" | "Rejected";
+    appointmentDate: NativeDate;
 }> & {
     _id: mongoose.Types.ObjectId;
 } & {

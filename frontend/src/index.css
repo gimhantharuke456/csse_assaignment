@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.ant-menu-item-selected {
+  color: #FF6B6B !important;
+  background-color: rgba(255, 107, 107, 0.1) !important; /* Optional for a background color */
+}
+
+.ant-menu-item-selected > .anticon {
+  color: #FF6B6B !important; /* Also change icon color */
+}

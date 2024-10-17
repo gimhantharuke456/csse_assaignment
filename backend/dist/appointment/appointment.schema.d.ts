@@ -6,9 +6,9 @@ export declare const AppointmentSchema: mongoose.Schema<any, mongoose.Model<any,
     updatedAt: NativeDate;
 } & {
     patientName: string;
-    date: NativeDate;
     doctorName: string;
     hospital: string;
+    date: NativeDate;
     status: "Pending" | "Confirmed" | "Cancelled";
     specialService?: string;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
@@ -16,9 +16,9 @@ export declare const AppointmentSchema: mongoose.Schema<any, mongoose.Model<any,
     updatedAt: NativeDate;
 } & {
     patientName: string;
-    date: NativeDate;
     doctorName: string;
     hospital: string;
+    date: NativeDate;
     status: "Pending" | "Confirmed" | "Cancelled";
     specialService?: string;
 }>> & mongoose.FlatRecord<{
@@ -26,9 +26,9 @@ export declare const AppointmentSchema: mongoose.Schema<any, mongoose.Model<any,
     updatedAt: NativeDate;
 } & {
     patientName: string;
-    date: NativeDate;
     doctorName: string;
     hospital: string;
+    date: NativeDate;
     status: "Pending" | "Confirmed" | "Cancelled";
     specialService?: string;
 }> & {

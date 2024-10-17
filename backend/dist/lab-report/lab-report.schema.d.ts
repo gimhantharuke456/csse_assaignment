@@ -5,29 +5,29 @@ export declare const LabReportSchema: mongoose.Schema<any, mongoose.Model<any, a
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "Pending" | "Distributed";
     createdAt: NativeDate;
     patientId: string;
     reportDetails: string;
     doctorId: string;
-    status: "Pending" | "Distributed";
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "Pending" | "Distributed";
     createdAt: NativeDate;
     patientId: string;
     reportDetails: string;
     doctorId: string;
-    status: "Pending" | "Distributed";
 }>> & mongoose.FlatRecord<{
     createdAt: NativeDate;
     updatedAt: NativeDate;
 } & {
+    status: "Pending" | "Distributed";
     createdAt: NativeDate;
     patientId: string;
     reportDetails: string;
     doctorId: string;
-    status: "Pending" | "Distributed";
 }> & {
     _id: mongoose.Types.ObjectId;
 } & {

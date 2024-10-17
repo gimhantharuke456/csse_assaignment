@@ -1,4 +1,4 @@
-import React, { act, useState } from "react";
+import React, { useState } from "react";
 import { Layout, Menu, Input, Switch, Badge, Avatar } from "antd";
 import {
   HomeOutlined,
@@ -41,6 +41,7 @@ const Dashboard = () => {
         <Menu
           mode="inline"
           defaultSelectedKeys={["1"]}
+          selectedKeys={[`${activeIndex}`]}
           style={{ borderRight: 0 }}
         >
           <Menu.Item
@@ -49,7 +50,6 @@ const Dashboard = () => {
               onMenuItemClicked(1);
             }}
             icon={<HomeOutlined />}
-            style={{ color: "#FF6B6B" }}
           >
             Dashboard
           </Menu.Item>
@@ -67,7 +67,7 @@ const Dashboard = () => {
             onClick={() => {
               onMenuItemClicked(3);
             }}
-            key="4"
+            key="3"
             icon={<UserOutlined />}
           >
             Patients
@@ -76,7 +76,7 @@ const Dashboard = () => {
             onClick={() => {
               onMenuItemClicked(4);
             }}
-            key="5"
+            key="4"
             icon={<BarChartOutlined />}
           >
             Lab reports
@@ -85,7 +85,7 @@ const Dashboard = () => {
             onClick={() => {
               onMenuItemClicked(5);
             }}
-            key="6"
+            key="5"
             icon={<CoffeeOutlined />}
           >
             Give me a break
