@@ -14,12 +14,16 @@ import {
   EditOutlined,
   DeleteOutlined,
   UploadOutlined,
+  FilePdfOutlined,
 } from "@ant-design/icons";
 import patientService from "../../services/patientService";
 import { uploadFile } from "../../services/uploadFIleService";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
+  const [filteredPatients, setFilteredPatients] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [editingPatient, setEditingPatient] = useState(null);
@@ -27,16 +31,28 @@ const Patients = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetchPatients();
   }, []);
+
+  useEffect(() => {
+    setFilteredPatients(
+      patients.filter(
+        (patient) =>
+          patient.name.toLowerCase().includes(searchText.toLowerCase()) ||
+          patient.contactInfo.includes(searchText)
+      )
+    );
+  }, [searchText, patients]);
 
   const fetchPatients = async () => {
     setLoading(true);
     try {
       const data = await patientService.getAllPatients();
       setPatients(data);
+      setFilteredPatients(data); // Initialize filteredPatients with fetched data
     } catch (error) {
       message.error("Failed to fetch patients");
     } finally {
@@ -56,6 +72,13 @@ const Patients = () => {
 
   const handleOk = () => {
     form.validateFields().then(async (values) => {
+      const phoneRegex = /^\d{10}$/;
+
+      if (!phoneRegex.test(values.contactInfo)) {
+        message.error("Contact number must be exactly 10 digits!");
+        return;
+      }
+
       let url = "https://i.sstatic.net/y9DpT.jpg";
       try {
         const file = values.healthcareCard.file;
@@ -110,9 +133,39 @@ const Patients = () => {
     }
   };
 
+  const handleGeneratePDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Patients List", 14, 22);
+
+    const data = patients.map((patient) => [
+      patient.name,
+      patient.contactInfo,
+      patient.medicalHistory,
+    ]);
+
+    doc.autoTable({
+      head: [["Name", "Contact Info", "Medical History"]],
+      body: data,
+      startY: 30,
+    });
+
+    doc.save("patients.pdf");
+  };
+
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Contact Info", dataIndex: "contactInfo", key: "contactInfo" },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: "Contact Info",
+      dataIndex: "contactInfo",
+      key: "contactInfo",
+      sorter: (a, b) => a.contactInfo.localeCompare(b.contactInfo),
+    },
     {
       title: "Medical History",
       dataIndex: "medicalHistory",
@@ -160,6 +213,12 @@ const Patients = () => {
 
   return (
     <div style={{ padding: 24 }}>
+      <Input
+        placeholder="Search by name or contact"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        style={{ marginBottom: 16 }}
+      />
       <Button
         type="primary"
         icon={<PlusOutlined />}
@@ -172,10 +231,24 @@ const Patients = () => {
       >
         Add Patient
       </Button>
+      <Button
+        type="default"
+        icon={<FilePdfOutlined />}
+        onClick={handleGeneratePDF}
+        style={{
+          marginBottom: 16,
+          marginLeft: 8,
+          backgroundColor: "#FF6B6B",
+          borderColor: "#FF6B6B",
+          color: "#fff",
+        }}
+      >
+        Generate PDF
+      </Button>
       <Table
         columns={columns}
-        dataSource={patients}
-        rowKey="id"
+        dataSource={filteredPatients} // Use the filteredPatients for the table data
+        rowKey="_id" // Assuming the id field is named "_id"
         loading={loading}
       />
       <Modal
