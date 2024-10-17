@@ -24,8 +24,8 @@ let LabReportService = class LabReportService {
         this.labReportFactory = labReportFactory;
     }
     async createLabReport(createLabReportDto) {
-        const { patientId, reportDetails, doctorId } = createLabReportDto;
-        const newLabReport = this.labReportFactory.createLabReport(patientId, reportDetails, doctorId, lab_report_status_1.LabReportStatus.PENDING);
+        const { patientId, reportDetails, doctorId, fileUrl } = createLabReportDto;
+        const newLabReport = this.labReportFactory.createLabReport(patientId, reportDetails, doctorId, fileUrl, lab_report_status_1.LabReportStatus.PENDING);
         const labReport = new this.labReportModel(newLabReport);
         return labReport.save();
     }

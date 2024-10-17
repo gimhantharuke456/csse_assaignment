@@ -17,11 +17,12 @@ export class LabReportService {
   async createLabReport(
     createLabReportDto: CreateLabReportDto,
   ): Promise<LabReport> {
-    const { patientId, reportDetails, doctorId } = createLabReportDto;
+    const { patientId, reportDetails, doctorId, fileUrl } = createLabReportDto;
     const newLabReport = this.labReportFactory.createLabReport(
       patientId,
       reportDetails,
       doctorId,
+      fileUrl,
       LabReportStatus.PENDING,
     );
     const labReport = new this.labReportModel(newLabReport);

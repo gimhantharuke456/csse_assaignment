@@ -8,12 +8,14 @@ export class LabReportFactory {
     patientId: string,
     reportDetails: string,
     doctorId: string,
+    fileUrl: string,
     status: LabReportStatus,
   ) {
     return {
       patientId,
       reportDetails,
       doctorId,
+      fileUrl,
       status,
     };
   }

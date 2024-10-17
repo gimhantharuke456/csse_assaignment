@@ -7,4 +7,5 @@ export interface LabReport extends Document {
   reportDetails: string;
   doctorId: string;
   status: 'Pending' | 'Distributed';
+  fileUrl: string;
 }

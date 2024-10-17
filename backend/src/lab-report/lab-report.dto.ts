@@ -10,6 +10,9 @@ export class CreateLabReportDto {
 
   @IsString()
   readonly doctorId: string;
+
+  @IsString()
+  readonly fileUrl: string;
 }
 
 export class UpdateLabReportDto {

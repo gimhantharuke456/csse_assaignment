@@ -9,11 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LabReportFactory = void 0;
 const common_1 = require("@nestjs/common");
 let LabReportFactory = class LabReportFactory {
-    createLabReport(patientId, reportDetails, doctorId, status) {
+    createLabReport(patientId, reportDetails, doctorId, fileUrl, status) {
         return {
             patientId,
             reportDetails,
             doctorId,
+            fileUrl,
             status,
         };
     }

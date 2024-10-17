@@ -6,6 +6,7 @@ export const LabReportSchema = new mongoose.Schema(
     patientId: { type: String, required: true },
     reportDetails: { type: String, required: true },
     doctorId: { type: String, required: true },
+    fileUrl: { type: String, required: true, default: '' },
     status: {
       type: String,
       enum: ['Pending', 'Distributed'],
