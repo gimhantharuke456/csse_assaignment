@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/staff-appointments";
+const API_URL = "http://localhost:8080/staff-appointments";
 
 class StaffAppointmentService {
   // Create a staff appointment

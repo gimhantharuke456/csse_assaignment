@@ -56,15 +56,34 @@ const Patients = () => {
 
   const handleOk = () => {
     form.validateFields().then(async (values) => {
+      let url = "https://i.sstatic.net/y9DpT.jpg";
       try {
+        const file = values.healthcareCard.file;
+
+        if (file) {
+          if (file.originFileObj) {
+            url = await uploadFile(file.originFileObj);
+          } else {
+            url = editingPatient?.healthcareCard;
+          }
+        } else {
+          url = editingPatient?.healthcareCard;
+        }
+
         if (editingPatient) {
           setUpdateLoading(true);
-          await patientService.updatePatient(editingPatient.id, values);
+          await patientService.updatePatient(editingPatient._id, {
+            ...values,
+            healthcareCard: url,
+          });
           message.success("Patient updated successfully");
           setUpdateLoading(false);
         } else {
           setCreateLoading(true);
-          await patientService.createPatient(values);
+          await patientService.createPatient({
+            ...values,
+            healthcareCard: url,
+          });
           message.success("Patient created successfully");
           setCreateLoading(false);
         }
@@ -88,16 +107,6 @@ const Patients = () => {
       message.error("Failed to delete patient");
     } finally {
       setDeleteLoading(false);
-    }
-  };
-
-  const handleFileUpload = async (file) => {
-    try {
-      const url = await uploadFile(file);
-      form.setFieldsValue({ healthcareCard: url });
-      message.success("File uploaded successfully");
-    } catch (error) {
-      message.error("Failed to upload file");
     }
   };
 
@@ -134,7 +143,7 @@ const Patients = () => {
           />
           <Popconfirm
             title="Are you sure you want to delete this patient?"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
@@ -212,13 +221,7 @@ const Patients = () => {
               { required: true, message: "Please upload the healthcare card!" },
             ]}
           >
-            <Input hidden />
-            <Upload
-              beforeUpload={(file) => {
-                handleFileUpload(file);
-                return false;
-              }}
-            >
+            <Upload>
               <Button icon={<UploadOutlined />}>Click to Upload</Button>
             </Upload>
           </Form.Item>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/lab-reports";
+const API_URL = "http://localhost:8080/lab-reports";
 
 class LabReportService {
   // Create a lab report
