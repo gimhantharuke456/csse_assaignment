@@ -16,6 +16,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const lab_report_module_1 = require("./lab-report/lab-report.module");
 const staff_appointment_module_1 = require("./staff-appointment/staff-appointment.module");
 const patient_module_1 = require("./patient/patient.module");
+const user_module_1 = require("./user/user.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,6 +28,7 @@ exports.AppModule = AppModule = __decorate([
             lab_report_module_1.LabReportModule,
             staff_appointment_module_1.StaffAppointmentModule,
             patient_module_1.PatientModule,
+            user_module_1.UserModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

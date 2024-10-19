@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Menu, Button, Typography, Row, Col, Card } from "antd";
-import { UserOutlined, PhoneOutlined } from "@ant-design/icons";
+import { UserOutlined, PhoneOutlined, LogoutOutlined } from "@ant-design/icons";
+import AuthModal from "../user/AuthModal";
 
 const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const MedEaseLandingPage = () => {
+  const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
+
+  const showAuthModal = () => {
+    setIsAuthModalVisible(true);
+  };
+
+  const handleAuthModalCancel = () => {
+    setIsAuthModalVisible(false);
+  };
   return (
     <Layout style={{ height: "100vh" }}>
       <Header style={{ background: "#fff", padding: "0 50px" }}>
@@ -19,9 +29,29 @@ const MedEaseLandingPage = () => {
           <Menu.Item key="services">Services</Menu.Item>
           <Menu.Item key="hospitals">Hospitals</Menu.Item>
           <Menu.Item key="about">About</Menu.Item>
-          <Menu.Item key="login">
-            <Button icon={<UserOutlined />}>Login</Button>
-          </Menu.Item>
+          {localStorage.getItem("user") && (
+            <Menu.Item key="appointment">Make Appointment</Menu.Item>
+          )}
+          {!localStorage.getItem("user") && (
+            <Menu.Item key="login">
+              <Button onClick={showAuthModal} icon={<UserOutlined />}>
+                Login
+              </Button>
+            </Menu.Item>
+          )}
+          {localStorage.getItem("user") && (
+            <Menu.Item key="logout">
+              <Button
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.reload();
+                }}
+                icon={<LogoutOutlined />}
+              >
+                Logout
+              </Button>
+            </Menu.Item>
+          )}
           <Menu.Item key="call">
             <Button type="primary" icon={<PhoneOutlined />} danger>
               CALL AMBULANCE
@@ -108,6 +138,10 @@ const MedEaseLandingPage = () => {
           </Col>
         </Row>
       </Content>
+      <AuthModal
+        visible={isAuthModalVisible}
+        onCancel={handleAuthModalCancel}
+      />
     </Layout>
   );
 };
