@@ -9,12 +9,14 @@ import {
   Popconfirm,
   Upload,
 } from "antd";
+import { QRCodeSVG } from "qrcode.react";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   UploadOutlined,
   FilePdfOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
 import patientService from "../../services/patientService";
 import { uploadFile } from "../../services/uploadFIleService";
@@ -32,7 +34,12 @@ const Patients = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
-
+  const [qrModalVisible, setQrModalVisible] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const showQrModal = (patient) => {
+    setSelectedPatient(patient);
+    setQrModalVisible(true);
+  };
   useEffect(() => {
     fetchPatients();
   }, []);
@@ -190,6 +197,11 @@ const Patients = () => {
       render: (_, record) => (
         <span>
           <Button
+            icon={<EyeOutlined />}
+            onClick={() => showQrModal(record)}
+            style={{ marginRight: 8, color: "#4CAF50", borderColor: "#4CAF50" }}
+          />
+          <Button
             icon={<EditOutlined />}
             onClick={() => showModal(record)}
             style={{ marginRight: 8, color: "#FF6B6B", borderColor: "#FF6B6B" }}
@@ -253,7 +265,7 @@ const Patients = () => {
       />
       <Modal
         title={editingPatient ? "Edit Patient" : "Add Patient"}
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={() => setIsModalVisible(false)}
         okButtonProps={{
@@ -299,6 +311,39 @@ const Patients = () => {
             </Upload>
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal
+        title="Patient QR Code"
+        open={qrModalVisible}
+        onCancel={() => setQrModalVisible(false)}
+        footer={null}
+      >
+        {selectedPatient && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            {selectedPatient && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <QRCodeSVG value={JSON.stringify(selectedPatient)} size={256} />
+                <p style={{ marginTop: 16 }}>
+                  Scan this QR code to view patient data
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
     </div>
   );
