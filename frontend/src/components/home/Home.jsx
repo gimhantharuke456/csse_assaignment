@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Layout, Menu, Button, Typography, Row, Col, Card } from "antd";
 import { UserOutlined, PhoneOutlined, LogoutOutlined } from "@ant-design/icons";
 import AuthModal from "../user/AuthModal";
+import MakeAppointment from "../appointments/MakeAppointment";
 
 const { Header, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const MedEaseLandingPage = () => {
   const [isAuthModalVisible, setIsAuthModalVisible] = useState(false);
+  const [isMakeAppointmentModalOpen, setIsAppointModalOpen] = useState(false);
 
   const showAuthModal = () => {
     setIsAuthModalVisible(true);
@@ -30,7 +32,14 @@ const MedEaseLandingPage = () => {
           <Menu.Item key="hospitals">Hospitals</Menu.Item>
           <Menu.Item key="about">About</Menu.Item>
           {localStorage.getItem("user") && (
-            <Menu.Item key="appointment">Make Appointment</Menu.Item>
+            <Menu.Item
+              onClick={() => {
+                setIsAppointModalOpen(true);
+              }}
+              key="appointment"
+            >
+              Make Appointment
+            </Menu.Item>
           )}
           {!localStorage.getItem("user") && (
             <Menu.Item key="login">
@@ -141,6 +150,12 @@ const MedEaseLandingPage = () => {
       <AuthModal
         visible={isAuthModalVisible}
         onCancel={handleAuthModalCancel}
+      />
+      <MakeAppointment
+        visible={isMakeAppointmentModalOpen}
+        onClose={() => {
+          setIsAppointModalOpen(false);
+        }}
       />
     </Layout>
   );
